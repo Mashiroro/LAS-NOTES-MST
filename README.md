@@ -257,6 +257,10 @@ restorecon <file>
 ```
 ## Allow anonymous upload for FTP
 ```
+mkdir /var/ftp/<folder name>
+chgrp ftp /var/ftp/<folder name>
+chmod 730 /var/ftp/<folder name>
+
 nano /etc/vsftpd/vsftpd.conf
 anon_upload_enable=YES
 write_enable=YES
@@ -264,10 +268,12 @@ write_enable=YES
 
 setsebool -P allow_ftpd_anon_write True
 setsebool -P allow_ftpd_full_access True
-
+# or
 setsebool -P allow_ftpd_anon_write=1
 setsebool -P allow_ftpd_full_access=1
 ```
+> group must have WRITE ACCESS
+> group must be FTP
 
 # Packages
 ## Installer
