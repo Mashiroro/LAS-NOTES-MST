@@ -310,23 +310,9 @@ dnf repolist enabled
 # see history of installed/deleted packages
 dnf history
 ```
-## Client
-```
-ftp
-nmap
-firewall-config
-policycoreutils-gui #system-config-selinux
-```
-## Services
-```
-vsftpd
-openssh-server
-cockpit
-httpd
-mod_ssl
-squid
-```
+
 # Services & applications
+## Usage
 ```
 <service name> - ssh, ftp
 <action> - restart, start, stop, enable
@@ -340,6 +326,29 @@ systemctl list-unit-files --type service
 # auto start at boot
 systemctl enable <service>
 ```
+## Services
+```
+sshd
+firewalld
+nmap
+
+# Gui for Firewall
+firewall-config
+# GUI for SELinux
+policycoreutils-gui 
+
+vsftpd
+openssh-server
+nfs-server
+nfs-utils
+cockpit
+
+# Apache
+httpd
+mod_ssl
+squid
+```
+
 # FTP (/etc/vsftpd/vsftpd.conf)
 > Default folder path: /var/ftp/pub
 > ftpd_banner //Enable to prevent Information Disclosure!
@@ -460,6 +469,8 @@ There must be a "enabled" for SSHD for it to start on boot
 ## Export the NFS
 > folder must be created beforehand and have the permission RWX.
 ```
+service nfs-server start
+
 nano /etc/exports
 <PATH TO FOLDER>    <IP ADDRESS>(<PERMISSION>,sync)
 
