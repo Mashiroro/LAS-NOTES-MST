@@ -57,8 +57,6 @@ LAS MST COMMANDS AND NOTES
   * [Logs](#logs)
 - [Firewall](#firewall-2)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 # Commands
 ```
