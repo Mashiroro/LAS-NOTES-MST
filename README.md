@@ -1,61 +1,64 @@
 # LAS-NOTES-MST
 LAS MST COMMANDS AND NOTES
 
+
+# Table of contents
+
 - [Commands](#commands)
 - [User Management](#user-management)
-  * [Users & Groups](#users---groups)
-  * [Disable login for account](#disable-login-for-account)
-  * [Sudo (/etc/sudoers)](#sudo---etc-sudoers-)
+  - [Users & Groups](#users--groups)
+  - [Disable login for account](#disable-login-for-account)
+  - [Sudo (/etc/sudoers)](#sudo-etcsudoers)
 - [File Permissions](#file-permissions)
-  * [File ACL](#file-acl)
+  - [File ACL](#file-acl)
 - [Networking](#networking)
-  * [Configure](#configure)
-  * [Show networking information](#show-networking-information)
+  - [Configure](#configure)
+  - [Show networking information](#show-networking-information)
 - [Security](#security)
-  * [SELinux (Policy)](#selinux--policy-)
-  * [SELinux Context](#selinux-context)
-  * [Allow anonymous upload for FTP](#allow-anonymous-upload-for-ftp)
+  - [SELinux (Policy)](#selinux-policy)
+  - [SELinux Context](#selinux-context)
+  - [Allow anonymous upload for FTP](#allow-anonymous-upload-for-ftp)
 - [Packages](#packages)
-  * [Installer](#installer)
-  * [Usage](#usage)
-  * [Client](#client)
-  * [Services](#services)
-- [Services & applications](#services---applications)
-- [FTP (/etc/vsftpd/vsftpd.conf)](#ftp---etc-vsftpd-vsftpdconf-)
-  * [Useful commands](#useful-commands)
-  * [Anonymous](#anonymous)
-  * [FTP welcome banner](#ftp-welcome-banner)
-  * [Enable FTP service on boot](#enable-ftp-service-on-boot)
-  * [Allow local users to login](#allow-local-users-to-login)
-  * [Enable write command](#enable-write-command)
-  * [Add FTP permanently to the firewall](#add-ftp-permanently-to-the-firewall)
-  * [Chroot (vsftpd.conf)](#chroot--vsftpdconf-)
-- [SSH (/etc/ssh/sshd_config)](#ssh---etc-ssh-sshd-config-)
-  * [Change listening port](#change-listening-port)
-  * [Add SSHD to Firewall](#add-sshd-to-firewall)
-  * [Add SSHD to on boot](#add-sshd-to-on-boot)
+  - [Installer](#installer)
+  - [Usage](#usage)
+- [Services & applications](#services--applications)
+  - [Usage](#usage)
+  - [Services](#services)
+- [FTP (/etc/vsftpd/vsftpd.conf)](#ftp-etcvsftpdvsftpdconf)
+  - [Useful commands](#useful-commands)
+  - [Anonymous](#anonymous)
+  - [FTP welcome banner](#ftp-welcome-banner)
+  - [Enable FTP service on boot](#enable-ftp-service-on-boot)
+  - [Allow local users to login](#allow-local-users-to-login)
+  - [Enable write command](#enable-write-command)
+  - [Add FTP permanently to the firewall](#add-ftp-permanently-to-the-firewall)
+  - [Chroot (vsftpd.conf)](#chroot-vsftpdconf)
+- [SSH (/etc/ssh/sshd_config)](#ssh-etcsshsshd_config)
+  - [Change listening port](#change-listening-port)
+  - [Add SSHD to Firewall](#add-sshd-to-firewall)
+  - [Add SSHD to on boot](#add-sshd-to-on-boot)
 - [NFS](#nfs)
-  * [Export the NFS](#export-the-nfs)
-  * [Firewall](#firewall)
-  * [Mounting](#mounting)
-  * [Unmount the NFS](#unmount-the-nfs)
-- [Apache (/etc/httpd/conf/httpd.conf)](#apache---etc-httpd-conf-httpdconf-)
-  * [Accessing](#accessing)
-  * [Firewall](#firewall-1)
-  * [/etc/httpd/conf/httpd.conf](#-etc-httpd-conf-httpdconf)
-  * [Server Status](#server-status)
-  * [Change performance](#change-performance)
-  * [Apache Logs](#apache-logs)
-  * [Basic Access Control](#basic-access-control)
-    + [Prevent Directory Query](#prevent-directory-query)
+  - [Export the NFS](#export-the-nfs)
+  - [Firewall](#firewall)
+  - [Mounting](#mounting)
+  - [Unmount the NFS](#unmount-the-nfs)
+- [Apache (/etc/httpd/conf/httpd.conf)](#apache-etchttpdconfhttpdconf)
+  - [Accessing](#accessing)
+  - [Firewall](#firewall)
+  - [/etc/httpd/conf/httpd.conf](#etchttpdconfhttpdconf)
+  - [Server Status](#server-status)
+  - [Change performance](#change-performance)
+  - [Apache Logs](#apache-logs)
+  - [Basic Access Control](#basic-access-control)
 - [Vhost](#vhost)
-  * [Configure VHost Client & Server (/etc/hosts)](#configure-vhost-client---server---etc-hosts-)
-  * [Create files for Vhost Webpage](#create-files-for-vhost-webpage)
-  * [Vhost Apache (Put in /etc/httpd/conf.d/\<name>.conf or default area)](#vhost-apache--put-in--etc-httpd-confd---name-conf-or-default-area-)
-  * [Configure Access control to enable co-authoring or web content](#configure-access-control-to-enable-co-authoring-or-web-content)
-- [Squid (/etc/squid/squid.conf)](#squid---etc-squid-squidconf-)
-  * [Logs](#logs)
-- [Firewall](#firewall-2)
+  - [Configure VHost Client & Server (/etc/hosts)](#configure-vhost-client--server-etchosts)
+  - [Create files for Vhost Webpage](#create-files-for-vhost-webpage)
+  - [Access Control](#access-control)
+  - [Vhost Apache (Put in /etc/httpd/conf.d/\<name>.conf or default area)](#vhost-apache-put-in-etchttpdconfdnameconf-or-default-area)
+  - [Configure Access control to enable co-authoring or web content](#configure-access-control-to-enable-co-authoring-or-web-content)
+- [Squid (/etc/squid/squid.conf)](#squid-etcsquidsquidconf)
+  - [Logs](#logs)
+- [Firewall](#firewall)
 
 
 # Commands
@@ -76,6 +79,13 @@ mkdir <folder name>
 # remove
 rm <file>
 rm -r
+
+# using grep to find the passwd file for any user id called "NAME"
+cat /etc/passwd | grep -o "^[^:]*" | grep NAME
+
+# using AWK to find any userid called "NAME"
+awk -F ':' '$1 ~/NAME/ {print $1}' /etc/passwd
+awk -F ':' '{print $1}' /etc/passwd | grep ^NAME
 ```
 
 # User Management
@@ -605,14 +615,26 @@ tail /var/log/httpd/error_log
 mkdir /var/www/<folder name>
 nano index.html
 ```
-    
+## Access Control
+```
+<Directory /var/www/FOLDERNAME>
+ Options -Indexes
+ Require all denied
+ Require ip <IP ADDRESS>
+ Require local
+</Directory>
+```
+> Forbid access to all files, folders and subfiles for that specific ip address
+> Require IP address give access to the specific IP address
+> Require Local give access to the localhost
+
 ## Vhost Apache (Put in /etc/httpd/conf.d/\<name>.conf or default area)
 ```
 nano /etc/httpd/conf.d/\<name>.conf
 # or
 nano /etc/httpd/conf/httpd.conf
 
-<VirtualHost <YOUR IP ADDRESS>:8080>
+<VirtualHost <YOUR IP ADDRESS>:80>
  ServerName www.domain.com
  DocumentRoot /var/www/<folder name>
  ErrorLog /var/log/httpd/<name>-error_log
